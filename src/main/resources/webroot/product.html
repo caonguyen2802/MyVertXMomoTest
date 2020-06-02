@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Product</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-md-5 m-auto mt-5">
+				<h3 class="text-center">ADD PRODUCT</h3>
+				<div class="p-4 border mt-4">
+					<!-- 				<form onsubmit="addProduct()"> -->
+					<div class="form-group">
+						<label class="col-md-12">Product Name</label>
+						<div class="col-md-12">
+							<input type="text" class="form-control form-control-line"
+								id="productName" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-12">Description</label>
+						<div class="col-md-12">
+							<input type="text" class="form-control form-control-line"
+								id="productDescription" />
+						</div>
+					</div>
+					<button type="button" onclick="addProduct()"
+						class="btn btn-success">Add Product</button>
+					<!-- 					</form> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	var token = localStorage.getItem("token");
+	if (!token) {
+		alert("You need to login first!!");
+		window.location.href = "/login";
+	}
+	function addProduct() {
+		console.log(localStorage.getItem("token"));
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", '/product', true);
+		xhr.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Authorization", "Bearer "
+				+ localStorage.getItem("token"));
+		xhr.onreadystatechange = function() {
+			if (this.readyState === 4 && this.status === 200) {
+				alert("Add product success!!");
+			} else if (this.readyState == 4 && (this.status < 200 || this.status > 200)) {
+				alert("Add product fail!! status: " + this.status);
+			}
+		}
+
+		var productName = document.getElementById('productName').value;
+		var productDescription = document.getElementById('productDescription').value;
+		xhr.send("productName=" + productName + "&productDescription="
+				+ productDescription);
+	}
+</script>
+</html>

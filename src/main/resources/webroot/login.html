@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-md-5 m-auto mt-5">
+				<h3 class="text-center">LOGIN</h3>
+				<div class="p-4 border mt-4">
+					<div class="form-group">
+						<label>Username</label> <input class="form-control" id="username">
+					</div>
+					<div class="form-group">
+						<label>Password</label> <input type="password"
+							class="form-control" id="password">
+					</div>
+					<button type="submit" onclick="login()" class="btn btn-success">Login</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	function login() {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", '/login', true);
+		xhr.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+		xhr.onreadystatechange = function() {
+			if (this.status === 200) {
+				console.log(xhr.responseText);
+				localStorage.setItem("token", xhr.responseText);
+				window.location.href = "/product";
+			} else if (this.readyState == 4 && (this.status < 200 || this.status >200)) {
+				alert("Login fail!! status: " + this.status);
+			}
+		};
+		var username = document.getElementById('username').value;
+		var password = document.getElementById('password').value;
+		xhr.send("username=" + username + "&password=" + password);
+	}
+</script>
+</html>
