@@ -47,6 +47,7 @@ public class MainVerticle extends AbstractVerticle {
 
 	private void loginHandler(RoutingContext ctx) {
 		String username = ctx.request().getParam("username");
+		
 		String password = ctx.request().getParam("password");
 
 		MySqlConfig.getInstance(vertx).preparedQuery("SELECT * FROM users WHERE username=? and password=?")

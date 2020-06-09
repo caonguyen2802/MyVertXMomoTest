@@ -13,29 +13,28 @@
 			<div class="col-md-5 m-auto mt-5">
 				<h3 class="text-center">ADD PRODUCT</h3>
 				<div class="p-4 border mt-4">
-					<!-- 				<form onsubmit="addProduct()"> -->
-					<div class="form-group">
-						<label class="col-md-12">Product Name</label>
-						<div class="col-md-12">
-							<input type="text" class="form-control form-control-line"
-								id="productName" />
+						<div class="form-group">
+							<label class="col-md-12">Product Name</label>
+							<div class="col-md-12">
+								<input type="text" class="form-control form-control-line"
+									id="productName">
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-md-12">Description</label>
-						<div class="col-md-12">
-							<input type="text" class="form-control form-control-line"
-								id="productDescription" />
+						<div class="form-group">
+							<label class="col-md-12">Description</label>
+							<div class="col-md-12">
+								<input type="text" class="form-control form-control-line"
+									id="productDescription" />
+							</div>
 						</div>
-					</div>
-					<button type="button" onclick="addProduct()"
-						class="btn btn-success">Add Product</button>
-					<!-- 					</form> -->
+						<button type="button" onclick="addProduct()"
+							class="btn btn-success">Add Product</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+
 
 <script>
 	var token = localStorage.getItem("token");
@@ -46,6 +45,16 @@
 	function addProduct() {
 		console.log(localStorage.getItem("token"));
 		var xhr = new XMLHttpRequest();
+		var productName = document.getElementById('productName').value;
+		var productDescription = document.getElementById('productDescription').value;
+		
+		if (productName == null || productName == ""){
+			alert("Name can't be blank!");
+			return false;
+		} else if (productDescription.length < 15){
+			alert("Description must be at least 15 characters long!");
+			return false;
+		}
 		xhr.open("POST", '/product', true);
 		xhr.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded");
@@ -59,8 +68,6 @@
 			}
 		}
 
-		var productName = document.getElementById('productName').value;
-		var productDescription = document.getElementById('productDescription').value;
 		xhr.send("productName=" + productName + "&productDescription="
 				+ productDescription);
 	}
